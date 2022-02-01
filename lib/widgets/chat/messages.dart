@@ -33,15 +33,21 @@ class Messages extends StatelessWidget {
 
         final chatDocs = chatSnapshot.requireData;
 
-        return ListView.builder(
-          reverse: true,
-          itemCount: chatDocs.size,
-          itemBuilder: (ctx, index) => MessageBubble(
-            chatDocs.docs[index]['text'],
-            chatDocs.docs[index]['userId'] == user?.uid,
-            key: ValueKey(chatDocs.docs[index]['documentID']),
-          )
-        );  
+        return FirebaseAuth.instance.currentUser != null 
+          ? ListView.builder(
+            reverse: true,
+            itemCount: chatDocs.size,
+            itemBuilder: (ctx, index) => MessageBubble(
+              chatDocs.docs[index]['text'],
+              chatDocs.docs[index]['userId'],
+              chatDocs.docs[index]['userId'] == user?.uid,
+              // key: ValueKey(chatDocs.docs[index]['documentID']),
+              key: ValueKey(chatDocs.docs[index].id),
+            ))
+          : const Center(
+            child: CircularProgressIndicator() 
+          );
+          
       }
     );
   }
