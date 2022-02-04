@@ -30,7 +30,6 @@ class _AuthFormState extends State<AuthForm> {
 
   var _userImageFile;
 
-
   void _pickedImage(File image){
     _userImageFile = image;
   } 
