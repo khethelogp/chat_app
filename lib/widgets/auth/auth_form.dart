@@ -59,9 +59,6 @@ class _AuthFormState extends State<AuthForm> {
         _isLogin,
         context
       );
-      // print(_userEmail);
-      // print(_userName);
-      // print(_userPassword);
       
       //! send auth request ...
     }
@@ -83,6 +80,9 @@ class _AuthFormState extends State<AuthForm> {
                     if(!_isLogin) UserImagePicker(_pickedImage),
                     TextFormField(
                       key: const ValueKey('email'),
+                      autocorrect: false,
+                      textCapitalization: TextCapitalization.none,
+                      enableSuggestions: false,
                       validator: (value) {
                         if(value!.isEmpty || !value.contains('@')) {
                           return 'Please enter a valid email address';
@@ -101,6 +101,9 @@ class _AuthFormState extends State<AuthForm> {
                     if(!_isLogin)
                     TextFormField(
                       key: const ValueKey('username'),
+                      autocorrect: true,
+                      textCapitalization: TextCapitalization.words,
+                      enableSuggestions: false,
                       validator: (value) {
                         if(value!.isEmpty || value.length < 4) {
                           return 'Please enter atleast 4 characters';

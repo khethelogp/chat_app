@@ -1,14 +1,34 @@
 import 'package:chat_app/widgets/chat/messages.dart';
 import 'package:chat_app/widgets/chat/new_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-class ChatScreen extends StatelessWidget {
-  // const ChatScreen({ Key? key }) : super(key: key);
-  // final Stream<QuerySnapshot> chats = FirebaseFirestore.instance.collection('chats/lrnb5C09ur3xozmJUVk4/messages').snapshots();
-  
-  // CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+class ChatScreen extends StatefulWidget {
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  // const ChatScreen({ Key? key }) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    final FirebaseMessaging _fbm = FirebaseMessaging.instance;
+    _fbm.requestPermission();
+    FirebaseMessaging.onMessage.listen((message) { 
+      print(message);
+      return;
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) { 
+      print(message);
+      return;
+    });
+
+    _fbm.subscribeToTopic('chat');
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +36,8 @@ class ChatScreen extends StatelessWidget {
         title: const Text('Chats'),
         actions: [
           DropdownButton(
-            icon: Icon(
+            underline: Container(),
+            icon: const Icon(
               Icons.more_vert, 
               color: Colors.white,
             ),
